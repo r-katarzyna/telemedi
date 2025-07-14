@@ -2,19 +2,74 @@ import { test, expect } from '@playwright/test';
 import { loginCredentials } from './testdata';
 import { loginPageElements , homePageElements , makePrescriptionConsultationPageElements } from './locators';
 import { testVariablesForSearchInput } from './testvariables';
+import { beforeEach } from 'node:test';
 
-
-//1. As a user i want to get an prescription //
-test('As a user i want to get an prescription', async ({ page }) => {
+test.beforeEach('As a user I want to log in', async ({ page }) => {
 
     await page.goto(loginCredentials.url);
     await page.fill(loginPageElements.usernameInput, loginCredentials.username);
     await page.fill(loginPageElements.passwordInput, loginCredentials.password);
     await page.click(loginPageElements.loginBtn);
+
+})
+
+
+// 1. As a user i want to get an prescription //
+test('As a user i want to get an prescription', async ({ page }) => {
+
     await page.click(homePageElements.makeAnAppointmentBtn);
     await page.click(homePageElements.prescriptionBtn);
     await page.click(makePrescriptionConsultationPageElements.searchInput);
     await page.fill(makePrescriptionConsultationPageElements.searchInput, testVariablesForSearchInput.medicine);
     await page.click(makePrescriptionConsultationPageElements.option);
-    //xx//
+    //Dopisać//
 });
+
+// 2. As a user I want to upload medical documentation //
+test('As a user i want to upload medical documentation', async({page}) => {
+
+    await page.getByText("Dokumentacja").click();    
+    await page.getByText("Dodaj plik").click();
+    await page.getByText("Przeciągnij plik z dysku lub kliknij tutaj").click();
+    const inputFile = page.locator('input[type=file]');
+    await inputFile.setInputFiles('C:/Users/katarzyna.rebelska/Documents/automationtests_telemedi_repo/tests/test-files/przykladowy-plik-pdf.pdf');
+
+    /*Sprawdzić
+    const chosenFileTitle = page.getByText("Wybrany plik:");
+    await expect(choosenFileTitle).toBeAttached();
+    const chosenFile = page.getByText("przykladowy-plik-pdf.pdf (Brak podglądu)")
+    await expect(chosenFile).toBeAttached();*/
+
+    await page.locator('button :text-is("Dodaj")').click();
+    
+    const firstRow = page.locator('tr').first();
+    await expect(firstRow).toContainText("przykladowy-plik-pdf.pdf");
+
+});
+
+// 3. As a user I want to log out //
+test('As a user I want to log out', async ({ page }) => {
+
+    await page.waitForTimeout(15000);
+    await page.getByLabel("Profil użytkownika").click();
+    await page.getByText("Wyloguj").click();
+
+    await expect(page.locator(loginPageElements.usernameInput)).toBeAttached();
+    await expect(page.locator(loginPageElements.passwordInput)).toBeAttached();
+    await expect(page.locator(loginPageElements.loginBtn)).toBeAttached(); 
+
+});
+
+// 4. As a user I want to edit my pesronal data //
+test('As a user I want to edit my personal data', async ({ page }) => {
+
+    await page.waitForTimeout(15000);
+    await page.getByLabel("Profil użytkownika").click();
+    await page.getByText("Moje dane").click();
+    await page.waitForTimeout(15000);
+    //coś tu jest nie tak//
+    const personalDataDiv = page.locator('div.jss994');
+    await personalDataDiv.locator('button').click();
+
+
+})
