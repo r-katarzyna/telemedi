@@ -67,9 +67,25 @@ test('As a user I want to edit my personal data', async ({ page }) => {
     await page.getByLabel("Profil użytkownika").click();
     await page.getByText("Moje dane").click();
     await page.waitForTimeout(15000);
-    //coś tu jest nie tak//
-    const personalDataDiv = page.locator('div.jss994');
-    await personalDataDiv.locator('button').click();
+    await page.locator('div').filter({ hasText: /^Dane personalneEdytuj$/ }).getByRole('button').click();
+    /*część: /^Dane personalneEdytuj$/ to wyrażenie regularne (RegExp) i oznacza:
+    /.../	Oznacza wyrażenie regularne (nie zwykły tekst)
+    ^	Początek tekstu
+    Dane personalneEdytuj	Dokładny tekst, którego szukasz
+    $	Koniec tekstu*/
+    await page.getByText("Zapisz").click();
 
+    const nameDl = page.locator('dl').filter({ hasText: 'Imię' });
+    const surnameDl = page.locator('dl').filter({ hasText: 'Nazwisko' });
+    const nationalityDl = page.locator('dl').filter({ hasText: 'Obywatelstwo' });
+    const personalIdNumberDl = page.locator('dl').filter({ hasText: 'PESEL' });
+    const sexDl = page.locator('dl').filter({ hasText: 'Płeć' });
+    const defaultTimezoneDl = page.locator('dl').filter({ hasText: 'Domyślna strefa czasowa' });
+    await expect(nameDl).toContainText("Pacjent");  
+    await expect(surnameDl).toContainText("Testowy"); 
+    await expect(nationalityDl).toContainText("PL"); 
+    await expect(personalIdNumberDl).toContainText("*6132"); 
+    await expect(sexDl).toContainText("Mężczyzna"); 
+    await expect(defaultTimezoneDl).toContainText("Europe/Warsaw");
 
-})
+});
