@@ -21,8 +21,11 @@ test('As a user i want to get an prescription', async ({ page }) => {
     await page.click(homePageElements.prescriptionBtn);
     await page.click(makePrescriptionConsultationPageElements.searchInput);
     await page.fill(makePrescriptionConsultationPageElements.searchInput, testVariablesForSearchInput.medicine);
-    await page.click(makePrescriptionConsultationPageElements.option);
-    //Dopisać//
+    
+    const option = page.locator('.menu__wrapper div.fk-select-v2__option:has-text("1 sasz. 8 g")');
+    await expect(option).toBeVisible();
+    await option.click();
+
 });
 
 // 2. As a user I want to upload medical documentation //
