@@ -89,3 +89,19 @@ test('As a user I want to edit my personal data', async ({ page }) => {
     await expect(defaultTimezoneDl).toContainText("Europe/Warsaw");
 
 });
+
+// 5. As a user I want to change language //
+test('As a user I want to change language', async ({ page }) => {
+
+    await page.waitForTimeout(15000);
+    await page.getByLabel("Profil użytkownika").click();
+    await page.locator('div :has-text("Język:")').locator('[class = "MuiPaper-root MuiAccordion-root jss242 MuiPaper-elevation1"]').click();
+    await page.getByText("English").click();
+
+    await page.waitForTimeout(40000);
+    await page.getByLabel("User profile").click();
+    await page.waitForTimeout(15000);
+    const languageMenu = page.locator('div :has-text("Language:")').locator('[class = "MuiPaper-root MuiAccordion-root jss242 MuiPaper-elevation1"]')
+    await expect(languageMenu).toHaveText("Language: English");
+
+});
