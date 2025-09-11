@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { loginCredentials } from './testdata';
-import { loginPageElements , homePageElements , makePrescriptionConsultationPageElements } from './locators';
-import { testVariablesForSearchInput } from './testvariables';
+import { loginPageElements , homePageElements , makePrescriptionConsultationPageElements, documentationPageElements } from './locators';
+import { testVariablesForSearchInput, testData } from './testvariables';
 import { beforeEach } from 'node:test';
 
 test.beforeEach('As a user I want to log in', async ({ page }) => {
@@ -34,11 +34,11 @@ test('As a user i want to get an prescription', async ({ page }) => {
 // 2. As a user I want to upload medical documentation //
 test('As a user i want to upload medical documentation', async({page}) => {
 
-    await page.getByText("Dokumentacja").click();    
-    await page.getByText("Dodaj plik").click();
-    await page.getByText("Przeciągnij plik z dysku lub kliknij tutaj").click();
-    const inputFile = page.locator('input[type=file]');
-    await inputFile.setInputFiles('C:/Users/katarzyna.rebelska/Documents/automationtests_telemedi_repo/tests/test-files/przykladowy-plik-pdf.pdf');
+    await page.getByText(documentationPageElements.documentationBtn).click();    
+    await page.getByText(documentationPageElements.uploadFileBtn).click();
+    await page.getByText(documentationPageElements.dragAndDropBtn).click();
+    const inputFile = page.locator(documentationPageElements.inputTypeFile);
+    await inputFile.setInputFiles(testData.pdfFilePath);
 
     /*Sprawdzić
     const chosenFileTitle = page.getByText("Wybrany plik:");
@@ -46,10 +46,10 @@ test('As a user i want to upload medical documentation', async({page}) => {
     const chosenFile = page.getByText("przykladowy-plik-pdf.pdf (Brak podglądu)")
     await expect(chosenFile).toBeAttached();*/
 
-    await page.locator('button :text-is("Dodaj")').click();
+    await page.locator(documentationPageElements.addBtn).click();
     
-    const firstRow = page.locator('tr').first();
-    await expect(firstRow).toContainText("przykladowy-plik-pdf.pdf");
+    const firstRow = page.locator(documentationPageElements.tableFirstRow).first();
+    await expect(firstRow).toContainText(testData.testPdfFile);
 
 });
 

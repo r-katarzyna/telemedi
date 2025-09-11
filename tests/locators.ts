@@ -21,3 +21,13 @@ export const makePrescriptionConsultationPageElements = {
     checkboxCheckAll : 'div.fk-input-wrapper',
     scheduleForFreeBtn : "Umów za 0 PLN",
 };
+
+export const documentationPageElements = {
+    documentationBtn : "Dokumentacja",
+    uploadFileBtn : "Dodaj plik",
+    dragAndDropBtn : "Przeciągnij plik z dysku lub kliknij tutaj",
+    inputTypeFile : 'input[type=file]',
+    addBtn : 'button :text-is("Dodaj")',
+    tableFirstRow : 'tr',
+    
+}
