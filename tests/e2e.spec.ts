@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { loginCredentials } from './testdata';
-import { loginPageElements , homePageElements , makePrescriptionConsultationPageElements, documentationPageElements } from './locators';
+import { loginPageElements , homePageElements , makePrescriptionConsultationPageElements, documentationPageElements, menuBar, myData} from './locators';
 import { testVariablesForSearchInput, testData } from './testvariables';
 import { beforeEach } from 'node:test';
 
@@ -57,8 +57,8 @@ test('As a user i want to upload medical documentation', async({page}) => {
 test('As a user I want to log out', async ({ page }) => {
 
     await page.waitForTimeout(15000);
-    await page.getByLabel("Profil użytkownika").click();
-    await page.getByText("Wyloguj").click();
+    await page.getByLabel(menuBar.menuBtn).click();
+    await page.getByText(menuBar.logOutBtn).click();
 
     await expect(page.locator(loginPageElements.usernameInput)).toBeAttached();
     await expect(page.locator(loginPageElements.passwordInput)).toBeAttached();
@@ -70,8 +70,8 @@ test('As a user I want to log out', async ({ page }) => {
 test('As a user I want to edit my personal data', async ({ page }) => {
 
     await page.waitForTimeout(15000);
-    await page.getByLabel("Profil użytkownika").click();
-    await page.getByText("Moje dane").click();
+    await page.getByLabel(menuBar.menuBtn).click();
+    await page.getByText(menuBar.myDataOption).click();
     await page.waitForTimeout(15000);
     await page.locator('div').filter({ hasText: /^Dane personalneEdytuj$/ }).getByRole('button').click();
     /*część: /^Dane personalneEdytuj$/ to wyrażenie regularne (RegExp) i oznacza:
@@ -79,7 +79,7 @@ test('As a user I want to edit my personal data', async ({ page }) => {
     ^	Początek tekstu
     Dane personalneEdytuj	Dokładny tekst, którego szukasz
     $	Koniec tekstu*/
-    await page.getByText("Zapisz").click();
+    await page.getByText(myData.saveBtn).click();
 
     const nameDl = page.locator('dl').filter({ hasText: 'Imię' });
     const surnameDl = page.locator('dl').filter({ hasText: 'Nazwisko' });

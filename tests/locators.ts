@@ -29,5 +29,15 @@ export const documentationPageElements = {
     inputTypeFile : 'input[type=file]',
     addBtn : 'button :text-is("Dodaj")',
     tableFirstRow : 'tr',
-    
+
+};
+
+export const menuBar = {
+    menuBtn : "Profil użytkownika",
+    logOutBtn : "Wyloguj",
+    myDataOption : "Moje dane",
+};
+
+export const myData = {
+    saveBtn : "Zapisz",
 }
