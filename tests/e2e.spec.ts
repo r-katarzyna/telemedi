@@ -22,12 +22,12 @@ test('As a user i want to get an prescription', async ({ page }) => {
     await page.click(makePrescriptionConsultationPageElements.searchInput);
     await page.fill(makePrescriptionConsultationPageElements.searchInput, testVariablesForSearchInput.medicine);
     
-    const option = page.locator('.menu__wrapper div.fk-select-v2__option:has-text("1 sasz. 8 g")');
+    const option = page.locator(makePrescriptionConsultationPageElements.option);
     await expect(option).toBeVisible();
     await option.click();
     
-    await page.click('div.fk-input-wrapper');
-    await page.getByText("Umów za 0 PLN").click();
+    await page.click(makePrescriptionConsultationPageElements.checkboxCheckAll);
+    await page.getByText(makePrescriptionConsultationPageElements.scheduleForFreeBtn).click();
 
 });
 
