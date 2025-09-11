@@ -25,6 +25,9 @@ test('As a user i want to get an prescription', async ({ page }) => {
     const option = page.locator('.menu__wrapper div.fk-select-v2__option:has-text("1 sasz. 8 g")');
     await expect(option).toBeVisible();
     await option.click();
+    
+    await page.click('div.fk-input-wrapper');
+    await page.getByText("Umów za 0 PLN").click();
 
 });
 
