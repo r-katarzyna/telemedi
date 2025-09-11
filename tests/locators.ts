@@ -17,5 +17,7 @@ export const homePageElements = {
 //"make-prescription-consultation" Page Elements//
 export const makePrescriptionConsultationPageElements = {
     searchInput : '#telemedico-widget #react-select-2-input',
-    option : 'div.css-1gl4k7y > div : ' + testVariablesForSearchInput.dose
+    option : '.menu__wrapper div.fk-select-v2__option:has-text("1 sasz. 8 g")',
+    checkboxCheckAll : 'div.fk-input-wrapper',
+    scheduleForFreeBtn : "Umów za 0 PLN",
 };
